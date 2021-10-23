@@ -26,5 +26,7 @@ O festival terá duração fixa de 3 dias (sexta, sábado e domingo), começando
     Caso já exista um show marcado para o dia e o horário em questão, o seu endpoint deve retornar um erro. Faça ao menos dois testes para checar se os dados estão corretos, sendo um em caso de erro e outro em caso de show em data repetida.
 
     - 6. Endpoint de pegar todos os shows de uma data
+   
+
     
     Recebe um dia (sexta, sábado ou domingo) e retorna todos os shows daquela data (ordenados pelo horário), mostrando somente o nome da banda e o gênero musical principal.
