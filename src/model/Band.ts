@@ -50,3 +50,11 @@ export interface BandInputDTO {
     mainGenre: string,
     responsible: string
 }
+
+
+export interface BandOutputDTO {
+    id: string,
+    name: string,
+    musicGenre: string,
+    responsible: string,
+}

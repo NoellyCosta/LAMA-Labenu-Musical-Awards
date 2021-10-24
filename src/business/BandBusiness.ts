@@ -21,8 +21,8 @@ export class BandBusiness {
             throw new UnauthorizedError("Only admin can acess this feature ")
         }
 
-        if(!input.name || !input.mainGenre || !input.responsible){
-          throw new InvalidInputError("Invalid input")  
+        if (!input.name || !input.mainGenre || !input.responsible) {
+            throw new InvalidInputError("Invalid input")
         }
 
         await this.bandDatabase.createBand(
@@ -32,4 +32,18 @@ export class BandBusiness {
             })
         )
     }
+
+
+    async getBandDetailByIdOrName(input: string): Promise<Band> {
+        if (!input) {
+            throw new InvalidInputError("Invalid input to getBandDetails")
+        }
+
+        return this.bandDatabase.getBandByIdOrNameOrFail(input)
+
+
+    }
+
+
+
 }
