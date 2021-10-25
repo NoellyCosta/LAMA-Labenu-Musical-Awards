@@ -7,6 +7,12 @@ dotenv.config()
 
 export abstract class BaseDatabase {
 
+    protected tableNames = {
+        bands: "Bands_list",
+        shows: "Table_Shows",
+        users: "Users_lama"
+    }
+
     private static connection: Knex | null = null;
 
     protected getConnection(): Knex{

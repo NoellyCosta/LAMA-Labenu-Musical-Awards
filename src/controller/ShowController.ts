@@ -12,24 +12,49 @@ export class ShowController {
         try {
             const weekDay = Show.toWeekDayEnum(req.body.weekDay)
 
-            const input: ShowInputDTO  = {
+            const input: ShowInputDTO = {
                 weekDay,
                 bandId: req.body.bandId,
                 startTime: req.body.startTime,
                 endTime: req.body.endTime
             }
 
-            const showBusiness = new ShowBusiness (
+            const showBusiness = new ShowBusiness(
                 new ShowDatabase,
                 new BandDatabase,
                 new IdGenerator,
                 new Authenticator
             )
-    
-        await showBusiness.createShow(input, req.headers.authorization as string)
 
-        res.sendStatus(200)
+            await showBusiness.createShow(input, req.headers.authorization as string)
+
+            res.sendStatus(200)
         } catch (error) {
+            res.status(error.customErrorCode || 400).send({
+                message: error.message
+            })
+        } finally {
+            await BandDatabase.destroyConnection()
+        }
+    }
+
+    async getSowsByWeekDay(req: Request, res: Response) {
+        try {
+           
+            const weekDay = Show.toWeekDayEnum(req.query.weekDay as string)
+
+
+            const showBusiness = new ShowBusiness(
+                new ShowDatabase,
+                new BandDatabase,
+                new IdGenerator,
+                new Authenticator
+            )
+
+            const shows = await showBusiness.getShowsByWeekDay(weekDay)
+
+            res.status(200).send({shows})
+} catch (error) {
             res.status(error.customErrorCode || 400).send({
                 message: error.message
             })
