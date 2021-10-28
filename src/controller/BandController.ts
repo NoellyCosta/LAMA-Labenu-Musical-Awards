@@ -49,7 +49,7 @@ export class BandController {
                 message: error.message
             })
         } finally {
-            await BandDatabase.destroyConnection()
+            await BaseDatabase.destroyConnection()
         }
 
 
