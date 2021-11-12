@@ -22,7 +22,6 @@ export class BandDatabase extends BaseDatabase {
         }
     }
 
-
     public async getBandByIdOrNameOrFail(input: string): Promise<Band> {
         const band = await this.getConnection()
             .select("*")

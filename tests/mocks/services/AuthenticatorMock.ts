@@ -1,4 +1,3 @@
-import { UserRole } from "../../../src/model/User";
 
 export class AuthenticatorMock {
   
