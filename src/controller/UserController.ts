@@ -1,10 +1,19 @@
 import { Request, Response } from "express";
-import { UserInputDTO, LoginInputDTO} from "../model/User";
+import { UserInputDTO, LoginInputDTO } from "../model/User";
 import { UserBusiness } from "../business/UserBusiness";
 import { BaseDatabase } from "../data/BaseDatabase";
+import { UserDatabase } from "../data/UserDatabase";
+import { IdGenerator } from "../services/IdGenerator";
+import { HashManager } from "../services/HashManager";
+import { Authenticator } from "../services/Authenticator";
+import EmailValidation from "../services/EmailValidation";
 
 export class UserController {
+    constructor(private userBusiness: UserBusiness) { }
+
+
     async signup(req: Request, res: Response) {
+
         try {
 
             const input: UserInputDTO = {
@@ -14,7 +23,6 @@ export class UserController {
                 role: req.body.role
             }
 
-            const userBusiness = new UserBusiness();
             const token = await userBusiness.createUser(input);
 
             res.status(200).send({ token });
@@ -26,6 +34,7 @@ export class UserController {
         await BaseDatabase.destroyConnection();
     }
 
+
     async login(req: Request, res: Response) {
 
         try {
@@ -35,7 +44,6 @@ export class UserController {
                 password: req.body.password
             };
 
-            const userBusiness = new UserBusiness();
             const token = await userBusiness.getUserByEmail(loginData);
 
             res.status(200).send({ token });
@@ -48,3 +56,13 @@ export class UserController {
     }
 
 }
+
+const hashManager = new HashManager()
+const authenticator = new Authenticator()
+const idGenerator = new IdGenerator()
+const emailValidation = new EmailValidation()
+const userDataBase = new UserDatabase()
+const userBusiness = new UserBusiness(userDataBase, authenticator, hashManager, idGenerator, emailValidation)
+const userController = new UserController(userBusiness)
+
+export default userController
